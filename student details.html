@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student details</title>
+<style>
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+          padding: 5px;
+        }
+        #form-elements table {
+          width: 300px; /* Adjust as needed */
+        }
+        #studentTable {
+          width: 550px; /* Adjust as needed */
+        }
+        /* Optional: Add some spacing around the form and table */
+        #form-elements, #studentTable {
+          margin-bottom: 20px;
+        }
+</style>
+</head>
+<body>
+  <center><h1>STUDENT FORM</h1></center>
+  <center>
+    <form id="form-elements">
+      <table>
+        <tr><td>Name</td><td><input type="text" id="name"></td></tr>
+        <tr><td>Age</td><td><input type="number" id="age"></td></tr>
+        <tr><td>Gender</td>
+            <td><input type="radio" name="gender" value="Male" id="male">Male 
+            <input type="radio" name="gender" value="Female" id="female">Female</td></tr>
+        <tr><td>Course</td>
+            <td>
+                <select >
+                    <option>Python</option>
+                    <option >Javascript</option>
+                    <option>C</option>
+                    <option >C++</option>
+                    <option>Java</option>
+                    <option >HTML,CSS</option>
+                </select>
+            </td></tr>
+        <tr><td>Email</td><td><input type="email" id="email"></td></tr>
+        <tr><td><button type="button" onclick="save()">Save</button></td></tr>
+      </table>
+    </form>
+
+    <table id="studentTable" style="display:none;">
+      <thead>
+        <tr><th>Name</th><th>Age</th><th>Course</th><th>Gender</th><th>Email</th><th>Action</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </center>
+
+  <script>
+    let studentTable = document.getElementById("studentTable");
+    let tableBody = studentTable.querySelector("tbody");
+
+    function save() {
+      let name = document.getElementById("name").value;
+      let age = document.getElementById("age").value;
+      let gender = document.querySelector('input[name="gender"]:checked')?.value; // Get selected gender
+      let email = document.getElementById("email").value;
+
+       if (!name || !age || !gender || !email) { // Simple validation
+        alert("Please fill all fields.");
+        return;
+      }
+
+      let row = tableBody.insertRow();
+      let cells = [name, age, "JavaScript", gender, email]; // Data for the row
+
+      cells.forEach(text => {
+        let cell = row.insertCell();
+        cell.textContent = text;
+      });
+
+      let actionCell = row.insertCell();
+      let deleteButton = document.createElement("button");
+      deleteButton.textContent = "Delete";
+      deleteButton.onclick = () => tableBody.removeChild(row);
+      actionCell.appendChild(deleteButton);
+
+      studentTable.style.display = "block"; // Show table
+      document.getElementById("form-elements").reset(); // Clear form (optional)
+    }
+  </script>
+</body>
+</html>
